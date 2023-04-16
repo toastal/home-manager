@@ -4,6 +4,8 @@
    — reconfigure a user environment</p></div><div class="refsynopsisdiv"><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">home-manager</code>  { 
     build
      |   
+    init [--switch]  [<em class="replaceable"><code>dir</code></em>]
+     |   
     instantiate
      |   
     edit
@@ -94,7 +96,9 @@
      }
    ]</p></div></div><div class="refsection"><a id="id-1.13.2.4"></a><h2>Description</h2><p>
    This command updates the user environment so that it corresponds to the
-      configuration specified in <code class="filename">~/.config/nixpkgs/home.nix</code> or <code class="filename">~/.config/nixpkgs/flake.nix</code>.
+   configuration specified in
+   <code class="filename">$XDG_CONFIG_HOME/home-manager/home.nix</code> or
+   <code class="filename">$XDG_CONFIG_HOME/home-manager/flake.nix</code>.
   </p><p>
    All operations using this tool expects a sub-command that indicates the
    operation to perform. It must be one of
@@ -103,6 +107,26 @@
      </span></dt><dd><p>
        Build configuration into a <code class="filename">result</code> directory.
       </p></dd><dt><span class="term">
+        <code class="option">init</code> [<code class="option">--switch</code>] [<em class="replaceable"><code>dir</code></em>]
+      </span></dt><dd><p class="simpara">
+          Generates an initial <code class="filename">home.nix</code> file for the
+          current user. If Nix flakes are enabled, then this command also
+          generates a <code class="filename">flake.nix</code> file.
+        </p><p class="simpara">
+          If a path <em class="replaceable"><code>dir</code></em> is given then the
+          configuration will be generated in that directory. Otherwise, the
+          configuration will be generated in
+          <code class="filename">~/.config/home-manager</code>. The output directory will
+          be created if it does not exist.
+        </p><p class="simpara">
+          If the <code class="option">--switch</code> option is given, then the generated
+          configuration is activated.
+        </p><p class="simpara">
+          Note, this command will not overwrite any existing files. It is
+          therefore safe to initialize a configuration, edit it, and then re-run
+          the <code class="option">init</code> command with <code class="option">--switch</code>
+          enabled to activate the configuration.
+        </p></dd><dt><span class="term">
       <code class="option">instantiate</code>
      </span></dt><dd><p>
        Instantiate the configuration and print the resulting derivation.
@@ -157,8 +181,8 @@
           remove packages installed through Home Manager from the user profile,
           and
          </p></li><li class="listitem"><p>
-          optionally remove all Home Manager generations and make them
-          available for immediate garbage collection.
+          remove all Home Manager generations and make them available
+          for immediate garbage collection.
          </p></li></ul></div><p>
       </p></dd></dl></div><p>
   </p></div><div class="refsection"><a id="id-1.13.2.5"></a><h2>Options</h2><p>
@@ -206,7 +230,7 @@
      <code class="option">--file <em class="replaceable"><code>path</code></em></code>
     </span></dt><dd><p>
       Indicates the path to the Home Manager configuration file. If not given,
-      <code class="filename">$XDG_CONFIG_HOME/nixpkgs/home.nix</code> is used.
+      <code class="filename">$XDG_CONFIG_HOME/home-manager/home.nix</code> is used.
      </p></dd><dt><span class="term">
      <code class="option">-h</code>
     , </span><span class="term">
