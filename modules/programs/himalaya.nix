@@ -12,10 +12,11 @@ let
     (lib.filterAttrs (_: account: "notmuch" ? account && account.notmuch.enable)
       enabledEmailAccounts) > 0;
 
-  package = himalaya.package.override (prev: {
-    buildFeatures = prev.buildFeatures
-      ++ lib.optional needNotmuchFeature "notmuch";
-  });
+  package = himalaya.package;
+  #.override (prev: {
+  #  buildFeatures = prev.buildFeatures
+  #    ++ lib.optional needNotmuchFeature "notmuch";
+  #});
 
   # attrs util that removes entries containing a null value
   compactAttrs = lib.filterAttrs (_: val: !isNull val);
